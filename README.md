@@ -1,6 +1,3 @@
-# modular-deep-learning-dashboard
-A configurable, modular deep learning dashboard with support for model training, real-time monitoring, extensibility, and experimentation.
-
 # Modular Deep Learning Dashboard
 A single-page, modular UI for building, configuring, monitoring, and managing deep learning training runs. Built for extensibility and experimentation, designed for clarity.
 
