@@ -50,6 +50,9 @@ This repo is intended to be forked, extended, and adapted — especially by deve
 
 ## 🔒 Private repo — Will be made public upon first deliverable.
 
+## 📄 License
+Licensed under the [Apache License, Version 2.0](LICENSE).
+
 ## 👤 Maintainer
 
 Anthony Underwood – \[[Send me feedback](mailto:underwoden@gmail.com) | [Visit my WordPress Blog](https://wordpress.com/overview/underwoden.wordpress.com) | [Review my Portfolio via Linktree](https://linktr.ee/underwoden)]
