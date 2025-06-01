@@ -12,6 +12,7 @@ const App: React.FC = () => {
         <div style={{ flex: 1, padding: '1.5rem' }}>
         <AppRoutes />
         </div>
+
       </div>
 
     </Router>

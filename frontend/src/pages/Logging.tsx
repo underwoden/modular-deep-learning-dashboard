@@ -1,15 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper";
 
 export default function Logging() {
   const [formData, setFormData] = useState({
-    epochs: 10,
-    batch_size: 32,
-    learning_rate: 0.001,
+    log_interval: 100,
+    log_dir: "logs/",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: parseFloat(e.target.value) });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,23 +24,18 @@ export default function Logging() {
   };
 
   return (
-    <div className="ml-64 p-8 max-w-xl">
-      <h1 className="text-2xl font-bold mb-4"><Logging></Logging> Config</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <PageWrapper title="Logging Configuration">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
         <div>
-          <label className="block mb-1 font-medium" htmlFor="epochs">Epochs</label>
-          <input type="number" name="epochs" value={formData.epochs} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium">Log Interval</label>
+          <input type="number" name="log_interval" value={formData.log_interval} onChange={handleChange} className="w-full p-2 border rounded" />
         </div>
         <div>
-          <label className="block mb-1 font-medium" htmlFor="batch_size">Batch Size</label>
-          <input type="number" name="batch_size" value={formData.batch_size} onChange={handleChange} className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium" htmlFor="learning_rate">Learning Rate</label>
-          <input type="number" step="0.0001" name="learning_rate" value={formData.learning_rate} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium">Log Directory</label>
+          <input type="text" name="log_dir" value={formData.log_dir} onChange={handleChange} className="w-full p-2 border rounded" />
         </div>
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
       </form>
-    </div>
+    </PageWrapper>
   );
 }

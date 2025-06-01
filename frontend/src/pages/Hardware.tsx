@@ -1,22 +1,30 @@
+// Hardware.tsx
 import { useState } from "react";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper";
 
 export default function Hardware() {
   const [formData, setFormData] = useState({
-    epochs: 10,
-    batch_size: 32,
-    learning_rate: 0.001,
+    device: "cpu",
+    num_workers: 2,
+    memory_limit_gb: 4,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: parseFloat(e.target.value) });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === "num_workers" || name === "memory_limit_gb" ? parseFloat(value) : value,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8000/hardware", formData);
-      alert("Hardware config submitted!");
+      alert("Hardware configuration submitted!");
     } catch (error) {
       alert("Error submitting hardware config");
       console.error(error);
@@ -24,23 +32,48 @@ export default function Hardware() {
   };
 
   return (
-    <div className="ml-64 p-8 max-w-xl">
-      <h1 className="text-2xl font-bold mb-4">Hardware Config</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <PageWrapper title="Hardware Configuration">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
         <div>
-          <label className="block mb-1 font-medium" htmlFor="epochs">Epochs</label>
-          <input type="number" name="epochs" value={formData.epochs} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium" htmlFor="device">Device</label>
+          <select
+            name="device"
+            value={formData.device}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          >
+            <option value="cpu">CPU</option>
+            <option value="cuda">CUDA</option>
+            <option value="mps">MPS</option>
+          </select>
         </div>
         <div>
-          <label className="block mb-1 font-medium" htmlFor="batch_size">Batch Size</label>
-          <input type="number" name="batch_size" value={formData.batch_size} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium" htmlFor="num_workers">Num Workers</label>
+          <input
+            type="number"
+            name="num_workers"
+            value={formData.num_workers}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
         </div>
         <div>
-          <label className="block mb-1 font-medium" htmlFor="learning_rate">Learning Rate</label>
-          <input type="number" step="0.0001" name="learning_rate" value={formData.learning_rate} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium" htmlFor="memory_limit_gb">Memory Limit (GB)</label>
+          <input
+            type="number"
+            name="memory_limit_gb"
+            value={formData.memory_limit_gb}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
         </div>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Submit
+        </button>
       </form>
-    </div>
+    </PageWrapper>
   );
 }

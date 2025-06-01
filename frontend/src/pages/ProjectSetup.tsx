@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper";
 
 export default function ProjectSetup() {
   const [formData, setFormData] = useState({
@@ -26,18 +27,20 @@ export default function ProjectSetup() {
   };
 
   return (
-    <div className="ml-64 p-8 max-w-xl">
-      <h1 className="text-3xl font-semibold mb-6">Project Setup</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <PageWrapper
+      title="Project Setup"
+      subtitle="Configure and submit metadata for your deep learning run."
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block mb-1 font-medium" htmlFor="project_name">
+          <label className="block mb-1 font-medium" htmlFor="name">
             Project Name
           </label>
           <input
             name="name"
             id="name"
             placeholder="Enter project name"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
             onChange={handleChange}
           />
         </div>
@@ -50,7 +53,7 @@ export default function ProjectSetup() {
             name="description"
             id="description"
             placeholder="Enter project description"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
             onChange={handleChange}
           />
         </div>
@@ -64,17 +67,17 @@ export default function ProjectSetup() {
             id="run_id"
             value={formData.run_id}
             disabled
-            className="w-full p-2 border bg-gray-100 text-gray-700 rounded"
+            className="w-full p-2 bg-gray-100 text-gray-700 border border-gray-200 rounded-md"
           />
         </div>
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          className="mt-4 rounded-xl bg-blue-600 px-6 py-2 text-white font-semibold hover:bg-blue-700 transition"
         >
           Submit
         </button>
       </form>
-    </div>
+    </PageWrapper>
   );
 }

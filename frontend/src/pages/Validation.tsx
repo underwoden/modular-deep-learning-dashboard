@@ -1,46 +1,158 @@
-import { useState } from "react";
-import axios from "axios";
+// Validation.tsx
+import React, { useState } from 'react';
+import axios from 'axios';
+import PageWrapper from '../components/PageWrapper';
 
-export default function Validation() {
-  const [formData, setFormData] = useState({
-    epochs: 10,
-    batch_size: 32,
-    learning_rate: 0.001,
+type ValidationFormData = {
+  model_name: string;
+  dataset: string;
+  batch_size?: number;
+  validation_split?: number;
+  shuffle: boolean;
+  run_id?: string;
+  metrics: string[];
+};
+
+const ValidationPage = () => {
+  const [formData, setFormData] = useState<ValidationFormData>({
+    model_name: '',
+    dataset: '',
+    batch_size: undefined,
+    validation_split: undefined,
+    shuffle: false,
+    run_id: '',
+    metrics: [],
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: parseFloat(e.target.value) });
+  const metricsOptions = ['accuracy', 'loss', 'precision', 'recall', 'f1'];
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const { name, value, type } = e.target;
+
+  if (type === 'checkbox') {
+    if (e.target instanceof HTMLInputElement) {
+      const checked = e.target.checked;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+    }
+  } else {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+};
+
+
+
+  const handleMetricsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected: string[] = Array.from(e.target.options)
+      .filter(option => option.selected)
+      .map(option => option.value);
+    setFormData(prev => ({ ...prev, metrics: selected }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/validation", formData);
-      alert("Validation config submitted!");
+      const response = await axios.post('http://localhost:8000/validate', formData);
+      console.log('Validation submitted:', response.data);
     } catch (error) {
-      alert("Error submitting validation config");
-      console.error(error);
+      console.error('Validation error:', error);
     }
   };
 
   return (
-    <div className="ml-64 p-8 max-w-xl">
-      <h1 className="text-2xl font-bold mb-4"><Validation></Validation> Config</h1>
+    <PageWrapper title="Validation Configuration">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-1 font-medium" htmlFor="epochs">Epochs</label>
-          <input type="number" name="epochs" value={formData.epochs} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
+            Model Name
+          </label>
+          <input
+            type="text"
+            name="model_name"
+            value={formData.model_name}
+            onChange={handleChange}
+            placeholder="Enter model name"
+            required
+          />
         </div>
         <div>
-          <label className="block mb-1 font-medium" htmlFor="batch_size">Batch Size</label>
-          <input type="number" name="batch_size" value={formData.batch_size} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
+            Dataset
+          </label>
+          <input
+              type="text"
+            name="dataset"
+            value={formData.dataset}
+            onChange={handleChange}
+            placeholder="Dataset"
+            required
+          />
         </div>
         <div>
-          <label className="block mb-1 font-medium" htmlFor="learning_rate">Learning Rate</label>
-          <input type="number" step="0.0001" name="learning_rate" value={formData.learning_rate} onChange={handleChange} className="w-full p-2 border rounded" />
+          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
+            Batch Size
+          </label>
+          <input
+            type="number"
+            name="batch_size"
+            value={formData.batch_size ?? ''}
+            onChange={handleChange}
+            placeholder="(optional)"
+          />
         </div>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+        <div>
+          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
+            Validation Split
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            name="validation_split"
+            value={formData.validation_split ?? ''}
+            onChange={handleChange}
+            placeholder="(e.g., 0.2)"
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
+            Run ID
+          </label>
+          <input
+            type="text"
+            name="run_id"
+            value={formData.run_id}
+            onChange={handleChange}
+            placeholder="(optional)"
+          />
+        </div>
+          {/* <label>
+            Shuffle:
+            <input
+              type="checkbox"
+              name="shuffle"
+              checked={formData.shuffle}
+              onChange={handleChange}
+            />
+        </label>
+        <label>
+          Metrics:
+          <select multiple value={formData.metrics} onChange={handleMetricsChange}>
+            {metricsOptions.map((metric) => (
+              <option key={metric} value={metric}>
+                {metric}
+              </option>
+            ))}
+          </select>
+        </label> */}
+        <button type="submit">Submit</button>
       </form>
-    </div>
+    </PageWrapper>
   );
-}
+};
+
+export default ValidationPage;
