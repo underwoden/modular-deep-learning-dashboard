@@ -1,12 +1,23 @@
-from fastapi import APIRouter
+from utils.storage import save_config, load_config
+from fastapi import APIRouter, HTTPException
 from schemas.validation import ValidationConfig
 
-router = APIRouter()
+router = APIRouter(tags=["Validation"])
 
-@router.get("/validation", response_model=ValidationConfig)
-def get_validation_config():
-    return ValidationConfig(strategy="k-fold", metric="accuracy")
+validation_store = {}
 
 @router.post("/validation")
 def update_validation_config(config: ValidationConfig):
-    return {"message": "Validation config updated"}
+    try:
+        save_config(config.model_dump(), "validation_config")
+        return {"message": "Validation config saved", "data": config}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/validation", response_model=ValidationConfig)
+def get_validation_config():
+    try:
+        data = load_config("validation_config")
+        return ValidationConfig(**data)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Validation config not found")

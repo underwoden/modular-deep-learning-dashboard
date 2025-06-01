@@ -1,16 +1,24 @@
-from fastapi import APIRouter
-from schemas.project import ProjectConfig  # Use correct schema
+from fastapi import APIRouter, HTTPException
+from schemas.project import ProjectConfig
+from utils.storage import save_config, load_config, list_configs
 
-router = APIRouter(tags=["Project"])  # Customize prefix/tags
-
-# Store submitted projects temporarily (in-memory list)
-project_store = []
+router = APIRouter(tags=["Project"])
 
 @router.post("/")
 def create_project(config: ProjectConfig):
-    project_store.append(config)
-    return {"message": "Project created", "data": config}
+    try:
+        save_config(config.model_dump(), config.run_id)
+        return {"message": "Project config saved", "data": config}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/")
 def get_projects():
-    return project_store  # Return all stored projects
+    return list_configs()
+
+@router.get("/{run_id}")
+def get_project(run_id: str):
+    try:
+        return load_config(run_id)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Config not found")

@@ -46,6 +46,23 @@ This repo is intended to be forked, extended, and adapted — especially by deve
 **In development** — first MVP planned for 06/01/2025.
 
 * **Current phase**: Functional scaffolding and data flow validation
+## 🔄 Current Proof of Concept vs. Final Design
+
+The current version supports:
+- A single working form (`ProjectSetup.tsx`)
+- FastAPI backend with modular route support
+- In-memory storage for submitted config
+- Tailwind-compatible JSX (no Tailwind build system yet)
+
+Planned features for final product include:
+- Persistent config storage (YAML or JSON)
+- Full multi-form dashboard (model, data, training, etc.)
+- Real-time monitoring and visualizations
+- Plug-in callback system
+- Cross-platform CPU/GPU support with local launcher
+
+Performance constraints (especially low-RAM CPU environments) will guide final design decisions — exclusions will be based on technical need, not premature optimization.
+
 * **Next**: Add persistence, then integrate training orchestration and monitoring
 
 ## 🔒 Private repo — Will be made public upon first deliverable.

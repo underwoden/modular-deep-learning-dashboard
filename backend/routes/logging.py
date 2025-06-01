@@ -1,12 +1,23 @@
-from fastapi import APIRouter
+from utils.storage import save_config, load_config
+from fastapi import APIRouter, HTTPException
 from schemas.logging import LoggingConfig
 
-router = APIRouter()
+router = APIRouter(tags=["Logging"])
 
-@router.get("/logging", response_model=LoggingConfig)
-def get_logging_config():
-    return LoggingConfig(log_dir="./logs", checkpoint_freq=5)
+logging_store = {}
 
 @router.post("/logging")
 def update_logging_config(config: LoggingConfig):
-    return {"message": "Logging config updated"}
+    try:
+        save_config(config.model_dump(), "logging_config")
+        return {"message": "Logging config saved", "data": config}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/logging", response_model=LoggingConfig)
+def get_logging_config():
+    try:
+        data = load_config("logging_config")
+        return LoggingConfig(**data)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Logging config not found")
