@@ -1,3 +1,4 @@
+# ./backend/schemas/project.py
 from pydantic import BaseModel
 
 class ProjectConfig(BaseModel):

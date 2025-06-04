@@ -1,3 +1,4 @@
+# ./backend/routes/hardware.py
 from utils.storage import save_config, load_config
 from fastapi import APIRouter, HTTPException
 from schemas.hardware import HardwareConfig
@@ -6,7 +7,7 @@ router = APIRouter(tags=["Hardware"])
 
 hardware_store = {}
 
-@router.post("/hardware")
+@router.post("/")
 def update_hardware_config(config: HardwareConfig):
     try:
         save_config(config.model_dump(), "hardware_config")
@@ -14,7 +15,7 @@ def update_hardware_config(config: HardwareConfig):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/hardware", response_model=HardwareConfig)
+@router.get("/", response_model=HardwareConfig)
 def get_hardware_config():
     try:
         data = load_config("hardware_config")

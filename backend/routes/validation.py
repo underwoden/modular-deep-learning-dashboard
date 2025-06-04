@@ -1,3 +1,4 @@
+# ./backend/routes/validation.py
 from utils.storage import save_config, load_config
 from fastapi import APIRouter, HTTPException
 from schemas.validation import ValidationConfig
@@ -6,7 +7,7 @@ router = APIRouter(tags=["Validation"])
 
 validation_store = {}
 
-@router.post("/validation")
+@router.post("/")
 def update_validation_config(config: ValidationConfig):
     try:
         save_config(config.model_dump(), "validation_config")
@@ -14,7 +15,7 @@ def update_validation_config(config: ValidationConfig):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/validation", response_model=ValidationConfig)
+@router.get("/", response_model=ValidationConfig)
 def get_validation_config():
     try:
         data = load_config("validation_config")

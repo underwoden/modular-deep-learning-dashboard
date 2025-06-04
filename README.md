@@ -1,75 +1,116 @@
 # Modular Deep Learning Dashboard
 
-A single-page, modular UI for building, configuring, monitoring, and managing deep learning training runs. Built for extensibility and experimentation, designed for clarity.
+A single-page, modular UI for building, configuring, monitoring, and managing deep learning training runs.  
+Built for extensibility and experimentation, designed for clarity.
+
+---
 
 ## 🚀 Features
 
-* Project configuration and training orchestration
-* Real-time monitoring of loss, metrics, and system utilization
-* Support for PyTorch/TensorFlow backend
-* Custom model/data/tokenizer upload
-* Modular, plugin-based architecture for future extensibility
+- ✅ Project configuration and training orchestration
+- ✅ Real-time system utilization monitoring (CPU & memory)
+- ✅ Simulated training loop with loss/accuracy tracking
+- ✅ Persistent configuration and output storage (JSON-based)
+- ✅ Modular backend with typed model outputs and pluggable logic
+- ✅ Frontend visualization of training metrics (via React)
+- ✅ Fully working FastAPI backend and React frontend
+- ✅ TailwindCSS-compatible JSX styling
+
+---
 
 ## 🔧 Technologies
 
-* **Frontend**: React.js (TailwindCSS planned post-MVP)
-* **Backend**: FastAPI
-* **Training Framework**: PyTorch (primary), TensorFlow (secondary)
-* **Data**: JSON/YAML config management (in-memory for now)
+- **Frontend**: React.js (with TailwindCSS-compatible JSX classes)
+- **Backend**: FastAPI (Python 3.10+)
+- **Training Framework**: PyTorch (primary), TensorFlow (planned)
+- **Data Format**: JSON/YAML (current: JSON)
+- **Storage**: Local config/output files with unique run IDs
 
-## 📊 Current Status vs Vision
+---
 
-This project is currently a minimal, working proof of concept (PoC) demonstrating:
+## 📊 Current Status: MVP v0.1.2
 
-* Working **React + FastAPI** architecture
-* A functional **Project Setup** form with frontend-to-backend communication
-* In-memory handling of project configuration (non-persistent)
+This release marks an upgrade from proof-of-concept to a minimal viable prototype, with:
 
-The long-term vision includes:
+- Working full-stack architecture
+- Real-time system metric reporting
+- Pluggable training config interface
+- Output metrics saved per run ID
+- Retrain suggestion utility scaffolded
+- Summary-ready output model for evaluation
 
-* **Persistent config storage** (JSON/YAML/database)
-* **Training launch orchestration** via backend APIs
-* **Live monitoring** of training metrics and system performance
-* **TailwindCSS** for a streamlined UI (postponed for MVP deliverability)
-* **CPU-optimized workflows** for low-end environments (benchmarks forthcoming)
+---
 
-This repo is intended to be forked, extended, and adapted — especially by developers working with limited resources who want to prototype training workflows from scratch.
+## ✅ MVP Goals Met
 
-## 📈 Future Plans
+| Goal | Status |
+|------|--------|
+| React + FastAPI working together | ✅ |
+| Page-by-page modular forms       | ✅ |
+| Frontend-to-backend config flow  | ✅ |
+| In-memory → Persistent config    | ✅ |
+| Tailwind-compatible design       | ✅ |
+| Local-friendly, low-resource     | ✅ |
+| Multi-run output evaluation      | ✅ |
 
-* Hugging Face integration for model sharing
-* ArXiv-friendly export scripts
-* Collaboration & cloud compute support
+---
 
-## 💡 Status
+## 📈 Next Steps
 
-**In development** — first MVP planned for 06/01/2025.
+- Real-time loss/accuracy chart updates in frontend
+- YAML config import/export support
+- Backend-triggered training queue and orchestration
+- Full Tailwind build/styling pipeline
+- "Best Run" summary view with retrain suggestions
+- Interactive documentation per form page
+- TensorFlow and Hugging Face integration (planned)
+- arXiv-style reproducibility export (planned)
+- **Optional local desktop launcher for full-stack startup** (planned)
 
-* **Current phase**: Functional scaffolding and data flow validation
-## 🔄 Current Proof of Concept vs. Final Design
+---
 
-The current version supports:
-- A single working form (`ProjectSetup.tsx`)
-- FastAPI backend with modular route support
-- In-memory storage for submitted config
-- Tailwind-compatible JSX (no Tailwind build system yet)
+## 🧠 Development Notes
 
-Planned features for final product include:
-- Persistent config storage (YAML or JSON)
-- Full multi-form dashboard (model, data, training, etc.)
-- Real-time monitoring and visualizations
-- Plug-in callback system
-- Cross-platform CPU/GPU support with local launcher
+- Designed for low-resource environments (e.g., 3GB RAM Dell Inspiron 15-3573)
+- CPU-optimized, dev-tested for constrained hardware
+- Emphasizes:
+  - Alignment-friendly, modular workflows
+  - Config-driven deep learning design
+  - Persistent, interpretable model configuration and output
 
-Performance constraints (especially low-RAM CPU environments) will guide final design decisions — exclusions will be based on technical need, not premature optimization.
+---
 
-* **Next**: Add persistence, then integrate training orchestration and monitoring
+## 🔧 Configuration + Output Storage
 
-## 🔒 Private repo — Will be made public upon first deliverable.
+- Configs: `~/.modular_dl_dashboard/configs/{run_id}.json`
+- Outputs: `outputs/{run_id}.json`
+- Each run is uniquely identified and re-loadable for future experiments
 
-## 📄 License
-Licensed under the [Apache License, Version 2.0](LICENSE).
+---
+
+## 🤝 Community Use
+
+This repo is intended to be forked, extended, and reused — especially by:
+
+- Developers prototyping deep learning pipelines
+- AI hobbyists working on limited hardware
+- Students learning backend/frontend ML infrastructure
+- Alignment researchers building interpretable training tools
+
+---
+
+## 📜 License
+
+Licensed under the Apache License, Version 2.0
+
+---
 
 ## 👤 Maintainer
 
 Anthony Underwood – \[[Send me feedback](mailto:underwoden@gmail.com) | [Visit my WordPress Blog](https://wordpress.com/overview/underwoden.wordpress.com) | [Review my Portfolio via Linktree](https://linktr.ee/underwoden)]
+
+---
+
+🧠 *Pretrain Your Brain!*
+
+

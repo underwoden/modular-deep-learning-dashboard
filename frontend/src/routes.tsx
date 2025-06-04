@@ -1,3 +1,4 @@
+/* ./frontend/src/routes.tsx */
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProjectSetup from "./pages/ProjectSetup";
 import Data from "./pages/Data";
@@ -6,7 +7,7 @@ import Training from "./pages/Training";
 import Validation from "./pages/Validation";
 import Logging from "./pages/Logging";
 import Hardware from "./pages/Hardware";
-
+import SystemMetrics from "./pages/System";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -18,6 +19,7 @@ const AppRoutes = () => {
       <Route path="/validation" element={<Validation />} />
       <Route path="/logging" element={<Logging />} />
       <Route path="/hardware" element={<Hardware />} />
+      <Route path="/system" element={<SystemMetrics />} />    
     </Routes>
   );
 };

@@ -1,5 +1,6 @@
+# ./backend/main.py
 from fastapi import FastAPI
-from routes import project, data, model, training, validation, hardware, logging
+from routes import project, data, model, training, validation, hardware, logging, system_metrics
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -20,7 +21,7 @@ app.include_router(training.router, prefix="/training")
 app.include_router(validation.router, prefix="/validation")
 app.include_router(hardware.router, prefix="/hardware")
 app.include_router(logging.router, prefix="/logging")
-
+app.include_router(system_metrics.router, prefix="/system")
 @app.get("/")
 async def root():
     return {"message": "Backend is running."}

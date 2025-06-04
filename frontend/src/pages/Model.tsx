@@ -1,4 +1,4 @@
-// Model.tsx
+// ./frontend/src/pages/Model.tsx
 import { useState } from "react";
 import axios from "axios";
 import PageWrapper from "../components/PageWrapper";

@@ -1,4 +1,4 @@
-// Validation.tsx
+// ./frontend/src/pages/Validation.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import PageWrapper from '../components/PageWrapper';
@@ -26,31 +26,25 @@ const ValidationPage = () => {
 
   const metricsOptions = ['accuracy', 'loss', 'precision', 'recall', 'f1'];
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-  const { name, value, type } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
 
-  if (type === 'checkbox') {
-    if (e.target instanceof HTMLInputElement) {
-      const checked = e.target.checked;
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
       setFormData((prev) => ({
         ...prev,
         [name]: checked,
       }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
     }
-  } else {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-};
-
-
+  };
 
   const handleMetricsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected: string[] = Array.from(e.target.options)
-      .filter(option => option.selected)
-      .map(option => option.value);
+    const selected: string[] = Array.from(e.target.selectedOptions).map(option => option.value);
     setFormData(prev => ({ ...prev, metrics: selected }));
   };
 
@@ -66,90 +60,102 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 
   return (
     <PageWrapper title="Validation Configuration">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
-            Model Name
-          </label>
+          <label className="block mb-1 font-medium">Model Name</label>
           <input
             type="text"
             name="model_name"
             value={formData.model_name}
             onChange={handleChange}
             placeholder="Enter model name"
+            className="w-full p-2 border border-gray-300 rounded-md"
             required
           />
         </div>
+
         <div>
-          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
-            Dataset
-          </label>
+          <label className="block mb-1 font-medium">Dataset</label>
           <input
-              type="text"
+            type="text"
             name="dataset"
             value={formData.dataset}
             onChange={handleChange}
-            placeholder="Dataset"
+            placeholder="Dataset name"
+            className="w-full p-2 border border-gray-300 rounded-md"
             required
           />
         </div>
+
         <div>
-          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
-            Batch Size
-          </label>
+          <label className="block mb-1 font-medium">Batch Size (optional)</label>
           <input
             type="number"
             name="batch_size"
             value={formData.batch_size ?? ''}
             onChange={handleChange}
-            placeholder="(optional)"
+            className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
+
         <div>
-          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
-            Validation Split
-          </label>
+          <label className="block mb-1 font-medium">Validation Split (0.0 - 1.0)</label>
           <input
             type="number"
             step="0.01"
             name="validation_split"
             value={formData.validation_split ?? ''}
             onChange={handleChange}
-            placeholder="(e.g., 0.2)"
+            placeholder="e.g., 0.2"
+            className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
+
         <div>
-          <label className="block mb-1 font-medium" htmlFor="dropout_rate">
-            Run ID
-          </label>
+          <label className="block mb-1 font-medium">Run ID (optional)</label>
           <input
             type="text"
             name="run_id"
             value={formData.run_id}
             onChange={handleChange}
-            placeholder="(optional)"
+            placeholder="Leave blank for auto"
+            className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
-          {/* <label>
-            Shuffle:
-            <input
-              type="checkbox"
-              name="shuffle"
-              checked={formData.shuffle}
-              onChange={handleChange}
-            />
-        </label>
-        <label>
-          Metrics:
-          <select multiple value={formData.metrics} onChange={handleMetricsChange}>
-            {metricsOptions.map((metric) => (
+
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            name="shuffle"
+            checked={formData.shuffle}
+            onChange={handleChange}
+            id="shuffle"
+          />
+          <label htmlFor="shuffle" className="font-medium">Shuffle dataset</label>
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Metrics</label>
+          <select
+            multiple
+            value={formData.metrics}
+            onChange={handleMetricsChange}
+            className="w-full p-2 border border-gray-300 rounded-md h-32"
+          >
+            {metricsOptions.map(metric => (
               <option key={metric} value={metric}>
                 {metric}
               </option>
             ))}
           </select>
-        </label> */}
-        <button type="submit">Submit</button>
+        </div>
+
+        <button
+          type="submit"
+          className="mt-4 rounded-xl bg-blue-600 px-6 py-2 text-white font-semibold hover:bg-blue-700 transition"
+        >
+          Submit
+        </button>
       </form>
     </PageWrapper>
   );

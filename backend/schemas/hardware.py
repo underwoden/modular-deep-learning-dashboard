@@ -1,5 +1,7 @@
+# ./backend/schemas/hardware.py
 from pydantic import BaseModel
 
 class HardwareConfig(BaseModel):
     device: str
-    use_gpu: bool
+    num_workers: int
+    memory_limit_gb: int
